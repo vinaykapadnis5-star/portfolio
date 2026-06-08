@@ -1,0 +1,24 @@
+# Chain-of-Thought (CoT) Case Study
+
+## Example 1: Staff Planning
+
+**Problem:** 5 agents handle 40 tickets/day. Volume up 25%. Need how many more agents?
+
+**Solution:**
+- Step 1: Current = 5 × 40 = 200 tickets/day
+- Step 2: New = 200 × 1.25 = 250 tickets/day
+- Step 3: Gap = 250 - 200 = 50 tickets/day
+- Step 4: Extra agents = 50 ÷ 40 = 1.25
+
+**Answer: 2 more agents**
+
+## Example 2: Cost Analysis
+
+**Problem:** Agency $1000/hire vs Full-time $5000/month. Need 6 hires.
+
+**Solution:**
+- Agency cost = 6 × $1000 = $6000
+- Full-time 1 month = $5000
+- Full-time 3 months = $15000
+
+**Answer: Agency is cheaper for 6 hires**
