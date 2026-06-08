@@ -1,0 +1,12 @@
+# Real-World Use Case
+
+## Problem
+100+ customer emails daily. 12 hour response time.
+
+## My Solution
+3-prompt workflow: Categorize → Generate Reply → Assign Priority
+
+## Result
+- Response time: 12 hours → 2 hours
+- Agents needed: 5 → 3
+- Customer satisfaction: 3.2 → 4.5
