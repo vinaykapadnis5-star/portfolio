@@ -1,0 +1,31 @@
+# My Prompt Template Library
+
+## 1. Research Summarizer
+Summarize any article in 150 words. Include main argument, 3 key findings, methodology.
+
+## 2. Email Generator
+Write professional email. Tone formal/friendly/urgent. 100 words. Include subject line.
+
+## 3. Customer Support Reply
+Reply to customer query. Be empathetic. Give solution. Max 3 sentences.
+
+## 4. LinkedIn Post
+Write LinkedIn post. Hook + 3 bullet points + question + 3 hashtags.
+
+## 5. Data Extractor
+Extract name, order_id, issue_type from text. Output JSON format.
+
+## 6. SEO Meta Description
+Write 150-160 character meta description. Include keyword naturally.
+
+## 7. Interview Questions
+Generate 5 interview questions for any role. 2 technical + 2 behavioral + 1 problem solving.
+
+## 8. Code Debugger
+Debug code. Tell error, why it happened, fixed code.
+
+## 9. Meeting Notes
+Summarize meeting notes. Decisions, action items, blockers, next meeting.
+
+## 10. Resume Tailor
+Tailor resume for a job. Add keywords, rewrite summary, highlight matching skills.
