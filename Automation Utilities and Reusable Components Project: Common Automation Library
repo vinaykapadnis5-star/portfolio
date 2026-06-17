@@ -1,0 +1,56 @@
+// Utility Classes
+public class AutomationUtils {
+    
+    // Excel Data Reader
+    public static class ExcelReader {
+        public static Object[][] getTestData(String filePath, String sheetName) {
+            try (FileInputStream fis = new FileInputStream(filePath);
+                 Workbook workbook = WorkbookFactory.create(fis)) {
+                Sheet sheet = workbook.getSheet(sheetName);
+                // Read and return data
+            }
+        }
+    }
+    
+    // Wait Utilities
+    public static class WaitUtils {
+        public static void waitForElement(WebDriver driver, By locator, int seconds) {
+            new WebDriverWait(driver, seconds)
+                .until(ExpectedConditions.visibilityOfElementLocated(locator));
+        }
+    }
+    
+    // File Operations
+    public static class FileUtils {
+        public static String readFileContent(String filePath) {
+            // File reading logic
+        }
+        
+        public static void writeToFile(String content, String filePath) {
+            // File writing logic
+        }
+    }
+}
+
+// Reusable Components
+@Component
+public class TestDataManager {
+    
+    private Properties config;
+    private static ThreadLocal<Map<String, String>> testData = new ThreadLocal<>();
+    
+    public String getConfig(String key) {
+        return config.getProperty(key);
+    }
+    
+    public void setTestData(String key, String value) {
+        if (testData.get() == null) {
+            testData.set(new HashMap<>());
+        }
+        testData.get().put(key, value);
+    }
+    
+    public String getTestData(String key) {
+        return testData.get().get(key);
+    }
+}
