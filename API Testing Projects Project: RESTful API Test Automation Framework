@@ -1,0 +1,56 @@
+// REST Assured Test Implementation
+public class APITest {
+    private static final String BASE_URL = "https://api.products.com/v1";
+    
+    @Test
+    public void testCreateAndGetProduct() {
+        // Create Product
+        String productJson = "{ \"name\": \"Test Product\", \"price\": 99.99 }";
+        
+        Response createResponse = given()
+            .header("Content-Type", "application/json")
+            .header("Authorization", "Bearer " + getAuthToken())
+            .body(productJson)
+            .when()
+            .post(BASE_URL + "/products")
+            .then()
+            .statusCode(201)
+            .body("id", notNullValue())
+            .body("name", equalTo("Test Product"))
+            .extract().response();
+        
+        String productId = createResponse.jsonPath().getString("id");
+        
+        // Get Product
+        given()
+            .header("Authorization", "Bearer " + getAuthToken())
+        .when()
+            .get(BASE_URL + "/products/" + productId)
+        .then()
+            .statusCode(200)
+            .body("id", equalTo(productId))
+            .body("price", equalTo(99.99f));
+    }
+}
+
+// API Test with Parameterized Tests
+@RunWith(Parameterized.class)
+public class ParameterizedAPITest {
+    @Parameterized.Parameter(0)
+    public String endpoint;
+    
+    @Parameterized.Parameter(1)
+    public int expectedStatusCode;
+    
+    @Parameterized.Parameter(2)
+    public String expectedResponseProperty;
+    
+    @Parameters(name = "Test {0} returns {1}")
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][] {
+            {"/users/1", 200, "id"},
+            {"/users/999", 404, "error"},
+            {"/products/invalid", 400, "message"}
+        });
+    }
+}
