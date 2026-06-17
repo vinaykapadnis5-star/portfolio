@@ -1,0 +1,77 @@
+// Database Connection Manager
+public class DatabaseManager {
+    private static Connection connection;
+    
+    public static Connection getConnection() {
+        if (connection == null) {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/testdb",
+                    "username",
+                    "password"
+                );
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return connection;
+    }
+}
+
+// Database Validation Utilities
+public class DatabaseValidator {
+    
+    // Verify data insertion
+    public static boolean verifyUserInserted(String email) {
+        String query = "SELECT COUNT(*) FROM users WHERE email = ?";
+        try (PreparedStatement stmt = DatabaseManager.getConnection()
+                .prepareStatement(query)) {
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            return rs.getInt(1) > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    // Compare UI data with Database
+    public static Map<String, String> getUserDataFromDB(String userId) {
+        Map<String, String> userData = new HashMap<>();
+        String query = "SELECT first_name, last_name, email FROM users WHERE id = ?";
+        
+        try (PreparedStatement stmt = DatabaseManager.getConnection()
+                .prepareStatement(query)) {
+            stmt.setString(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                userData.put("first_name", rs.getString("first_name"));
+                userData.put("last_name", rs.getString("last_name"));
+                userData.put("email", rs.getString("email"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userData;
+    }
+}
+
+// Database Test Class
+@Test
+public class DatabaseTest {
+    
+    @Test
+    public void testUserRegistrationDataConsistency() {
+        // Register user via API
+        String userId = APIManager.createUser("John", "Doe", "john@test.com");
+        
+        // Validate in database
+        Map<String, String> dbData = DatabaseValidator.getUserDataFromDB(userId);
+        
+        Assert.assertEquals("Doe", dbData.get("last_name"));
+        Assert.assertEquals("john@test.com", dbData.get("email"));
+    }
+}
