@@ -1,0 +1,54 @@
+// TestNG Configuration
+@Test
+@Listeners({CustomListener.class})
+public class ComprehensiveTestSuite {
+    
+    @BeforeSuite
+    public void beforeSuite() {
+        // Global setup
+        System.setProperty("test.env", "staging");
+    }
+    
+    @BeforeTest
+    public void beforeTest() {
+        // Test group setup
+    }
+    
+    @Test(groups = {"smoke", "regression"}, 
+          priority = 1,
+          dependsOnMethods = "testLogin")
+    public void testDashboardAccess() {
+        // Test implementation
+    }
+    
+    @Test(groups = {"regression"}, 
+          dataProvider = "testData",
+          invocationCount = 3,
+          timeOut = 5000)
+    public void testParameterizedFlow(String param1, int param2) {
+        // Parameterized test
+    }
+    
+    @Test(groups = {"integration"}, 
+          dependsOnGroups = {"smoke"})
+    public void testIntegrationFlow() {
+        // Integration test
+    }
+    
+    @AfterMethod
+    public void afterMethod(ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            // Custom failure handling
+        }
+    }
+    
+    // Custom Listener
+    public class CustomListener implements ITestListener {
+        @Override
+        public void onTestFailure(ITestResult result) {
+            // Take screenshot
+            // Log failure
+            // Send notification
+        }
+    }
+}
