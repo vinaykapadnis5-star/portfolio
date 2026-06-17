@@ -1,0 +1,47 @@
+// playwright.config.js
+module.exports = {
+    testDir: './tests',
+    timeout: 30000,
+    retries: 2,
+    use: {
+        baseURL: 'https://demo.playwright.com',
+        headless: true,
+        viewport: { width: 1280, height: 720 },
+        screenshot: 'only-on-failure',
+        video: 'retain-on-failure',
+        trace: 'retain-on-failure'
+    },
+    projects: [
+        { name: 'chromium', use: { browserName: 'chromium' } },
+        { name: 'firefox', use: { browserName: 'firefox' } },
+        { name: 'webkit', use: { browserName: 'webkit' } }
+    ]
+};
+
+// Test Implementation with Playwright
+const { test, expect } = require('@playwright/test');
+
+test.describe('E-commerce Flow', () => {
+    test('Complete Purchase Workflow', async ({ page }) => {
+        await page.goto('/');
+        
+        // Search for product
+        await page.fill('#search', 'Laptop');
+        await page.click('#search-btn');
+        
+        // Add to cart
+        await page.click('.product-card:first-child .add-to-cart');
+        await page.click('#cart-icon');
+        
+        // Checkout process
+        await page.click('#checkout-btn');
+        await page.fill('#name', 'John Doe');
+        await page.fill('#email', 'john@test.com');
+        await page.fill('#address', '123 Test Street');
+        
+        // Place order
+        const orderConfirmation = await page.waitForSelector('.order-success');
+        await expect(orderConfirmation).toBeVisible();
+        await expect(page.locator('.order-number')).toHaveText(/ORD-\d+/);
+    });
+});
